@@ -1,0 +1,16 @@
+{% extends "recommendations/base.html" %}
+{% load static %}
+{% block content %}
+<div id="welcome-page" class="text-center">
+	<h1>Welcome to <strong>asine</strong>me</h1>
+	<h3>What would you like to do today?</h3>
+	<div class="container mt-4">
+		<ul class="list-unstyled text-center" id="welcome-list">
+			<li><a href="{% url 'create_model' %}" class="btn outline-orange-button pb-0 pt-0 mb-4" role="button">Create Model</a></li>
+			<li><a href="#" class="btn outline-orange-button pb-0 pt-0 mb-4" role="button">Review model</a>
+			<li><a href="{% url 'input_leads' %}" class="btn outline-orange-button pb-0 pt-0 mb-4" role="button">Input new leads</a></li>
+			<li><a href="#" class="btn outline-orange-button pb-0 pt-0 mb-4" role="button">See your matches</a></li>
+		</ul>
+	</div>
+</div>
+{% endblock content %}

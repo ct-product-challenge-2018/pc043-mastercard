@@ -1,0 +1,45 @@
+{% extends "recommendations/base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container text-center">
+    <h1>Here's what we got!</h1>
+
+    <h3>Please confirm the information.  If you see something wrong, please try reuploading updated data or
+        check the features specifications. </h3>
+
+    <div class="container text-left p-4 white-bg">
+        <div class="container float-left data-summary">
+            <h4>Summary of Data</h4>
+            <p>Number of rows: <span class="result-span">{{ numRows }}</span></p>
+            <p>Number of data columns: <span class="result-span">{{ numDataCols }}</span></p>
+            <p>Number of successes: <span class="result-span">{{ numSuccesses }}</span></p>
+            <p>Number of failures: <span class="result-span">{{ numFailures }}</span></p>
+        </div>
+        <div class="container float-right feature-summary results-box">
+            <h4>Features</h4>
+            <p>Number of salespeople: <span class="result-span">{{ numSalespeople }}</span></p>
+            <p>Number of clients: <span class="result-span">{{ numClients }}</span></p>
+        {% for confirmation in userInputFieldConfirmations %}
+            <div class="container results-box-2">
+                <h5>{{ confirmation.formField.name }}</h5>
+                <p>Feature type: {{ confirmation.formField.featureType }}</p>
+                <p>Data type: {{ confirmation.formField.dataType }}</p>
+                <p>Number of unique categories:  <span class="result-span">{{ confirmation.uniqueCategories }}</span></p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-right">
+          
+            <a class="btn btn-primary btn-lg mt-5 mb-5 solid-orange-button" href="{% url 'loading_page' %}" role="button">
+                Confirm
+            </a>
+        </div>
+    </div>
+    </form>
+</div>
+{% endblock content %}

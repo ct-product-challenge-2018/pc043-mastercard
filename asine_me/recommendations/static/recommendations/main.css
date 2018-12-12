@@ -1,0 +1,244 @@
+:root {
+    --asineme-dark-blue: #0062B2;
+    --footer-light-blue: #ABCDE8;
+
+    --main-orange: #FF8200;
+    --medium-orange: #F4A770;
+    --light-orange: #F4DFD0;
+
+    --primary-text-gray: #333333;
+    --secondary-text-gray: #6A6A6A;
+
+    --background-offwhite: #F2ECEC;
+}
+
+body {
+    background: var(--background-offwhite);
+    color: var(--primary-text-gray);
+    margin-top: 5rem;
+    font-family: Roboto;
+}
+
+h1 {
+    font-size: 3em;
+    line-height: 1.5em;
+    color: var(--asineme-dark-blue);
+}
+
+h2{
+    color: var(--asineme-dark-blue);
+}
+
+h3, h4, h5, h6 {
+    font-weight: 700;
+    var(--primary-text-gray);
+}
+
+ul {
+    margin: 0;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 85px; /* Margin bottom by footer height */
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 85px; /* Set the fixed height of the footer here */
+  line-height: 85px; /* Vertically center the text there */
+  background-color: var(--footer-light-blue);
+}
+.footer span{
+    width: 542px;
+}
+
+/* site header styles
+--------------------------------*/
+#main-header{
+    background-color: var(--asineme-dark-blue);
+    height: 72px;
+    color: white;
+}
+
+#main-logo{
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 50px;
+}
+
+#main-nav .nav-item{
+    font-size: 21px;
+    line-height: 25px;
+    color: #FFF;
+}
+
+#main-nav .nav-item:hover {
+    opacity: 0.75;
+}
+
+#main-logo span {
+    opacity:0.75;
+}
+
+/* welcome page styles
+----------------------------------*/
+.numbered-icon{
+    width: 46px;
+    height: 46px;
+    margin: 10px;
+}
+
+#welcome-list li a{
+    font-size: 1.5em;
+    line-height: 2em;
+    color: var(--secondary-text-gray);
+}
+
+#welcome-subhead{
+    font-size: 36px;
+    line-height: 36px;
+    height: 36px;
+}
+
+/* create new model page
+----------------------------------*/
+.white-bg{
+    background-color: white;
+    overflow: hidden;
+}
+
+.results-box {
+    background-color: var(--light-orange);
+}
+
+.results-box-2 {
+    background-color: var(--medium-orange);
+    width:48%;
+    float:left;
+    margin: 5px;
+    padding:5px;
+}
+
+.table {
+  background-color: rgb(255, 255, 255, 0.70);
+  width: 100%;
+}
+
+td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+th{
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* Homepage */
+.backgroundimg {
+    background-image: url('agreement.png');
+    background-size:cover;
+}
+
+.abouttext {
+    font-size: 1.5em;
+}
+
+#secondary-logo {
+    color: var(--asineme-dark-blue);
+    display:inline;
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 50px;
+}
+
+#secondary-logo span {
+    opacity:0.75;
+}
+
+.blend-text{
+    mix-blend-mode: multiply;
+}
+
+.input_leads_form{
+  background-color: var(--light-orange);
+  color: var(--main-orange);
+  font-weight: bold;
+  border: solid #000;
+  border-color: LightGrey;
+
+}
+
+
+.plus-sign{
+  font-weight: lighter;
+  font-size: 100%;
+  color:grey;
+}
+.asteriskField {
+    display: none;
+}
+
+/* Buttons */
+.solid-orange-button {
+    background-color: var(--main-orange);
+    color: white;
+    border-radius: 30px;
+    border:0px;
+    font-size: 1.5em;
+}
+
+.outline-orange-button {
+    background-color: white;
+    color: var(--primary-text-gray);
+    border-radius: 30px;
+    border-width:3px;
+    border-color: var(--main-orange);
+    font-size: 1em;
+}
+
+.outline-orange-button:hover {
+    border-color: var(--asineme-dark-blue);
+
+}
+
+.round {
+    border-radius: 50%;
+}
+
+.data-summary{
+    width:25%;
+    height:100%;
+    display: inline-block;
+}
+
+.feature-summary{
+    width:70%;
+    display: inline-block;
+    padding: 1em;
+}
+
+.result-span{
+    font-weight: 700;
+    color: var(--asineme-dark-blue);
+}
+
+.results-circle {
+    border-width:3px;
+    align-items : center;
+    justify-content: center;
+    border-color: var(--main-orange);
+    border-style:solid;
+    border-radius: 50%;
+    display : flex;
+    width:12em;
+    height:12em;
+}

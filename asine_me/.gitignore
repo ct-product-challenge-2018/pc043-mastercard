@@ -1,0 +1,9 @@
+**/__pycache__
+**/*.log
+local_settings.py
+db.sqlite3
+**/*.pyc
+**/*.DS_Store
+**/*.idea
+.AppleDouble
+.LSOverride

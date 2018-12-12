@@ -1,0 +1,41 @@
+company:
+  name: Team MasterCard
+  logo: mastercard-logo.png
+product_hmw: How might we help B2B businesses generate actionable insights from transaction based metrics?
+product_narrative: Using transaction-based data our platform establishes which of your team members will be a better match for the customer. We believe this connection will enhance the sales experience resulting in a more meaningful and profitable business engagement.
+team:
+  picture: mastercard-team-photo-crit1.jpg
+  roster:
+  - name: Ian Anderson
+    email: ija22@cornell.edu
+    picture: IJA-headshot.jpg
+    program: MBA
+  - name: Sunna Halldorsdottir
+    email: sh2478@cornell.edu
+    picture: Sunna_Halldorsdottir_headshot.jpg
+    program: CS
+  - name: Tony Muchai
+    email: muira725@newschool.edu
+    picture: tony_muchai_headshot.jpg
+    program: Parsons
+  - name: Kathleen Szabo
+    email: kes355@cornell.edu
+    picture: Kathleen_Szabo_headshot_github_small.jpg
+    program: ORIE
+  - name: Yi-Ling Tung
+    email: yt543@cornell.edu
+    picture: yilingtung_headshot.jpg
+    program: CS
+assets:
+- title: Sprint 1
+  url: https://drive.google.com/file/d/1dVBTDNblMzAj6cT9FcW_2Dx4MSVhwhjo/view?usp=sharing
+- title: Deliverable 3
+  url: https://drive.google.com/file/d/1vYwmq4u-ih6Fv27pHfxIVunluJ9h9jda/view?usp=sharing
+- title: Deliverable 4
+  url: https://drive.google.com/file/d/1Le8vlZVhO_hO3O-ctLDJle7lCsB5i1vU/view?usp=sharing
+- title: Sprint 2
+  url: https://drive.google.com/file/d/1eC3ACE3ruvIsRMeBLAUJw5zazpFQ6wGz/view?usp=sharing
+- title: Sprint 3
+  url: https://drive.google.com/file/d/1sU9l3QaplNuVEWMOi_fE7OjlL4ahxovq/view?usp=sharing
+- title: Final Presentation
+  url: https://drive.google.com/file/d/1QcPEB6ovu059qvl9uuraOH-nkxLtv60C/view?usp=sharing

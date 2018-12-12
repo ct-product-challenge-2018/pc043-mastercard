@@ -1,0 +1,57 @@
+{% extends "recommendations/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="jumbotron backgroundimg text-center">
+        <div class="container">
+            <h1 class="blend-text">Match leads to the right salespeople</h1>
+
+            <p>
+                <a class="btn btn-primary btn-lg mt-5 solid-orange-button" href="#" role="button">Get Started</a>
+            </p>
+        </div>
+    </div>
+
+    <div class="container text-center mt-2">
+        <div class="container text-center">
+        <p class="abouttext">Using transaction-based data our platform establishes which of your team members will be
+            a better match for the customer. We believe this connection will enhance the sales experience resulting
+            in a more meaningful and profitable business engagement.
+        </p>
+        </div>
+    </div>
+
+    <div class="container  text-center mt-5">
+        <h2 class="d-inline">Why </h2><h2 class="d-inline" id="secondary-logo">asine<span>me</span></h2>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="float-left">
+                    <img src="{% static 'recommendations/icons/number_icons_1_orange.png' %}" class="numbered-icon">
+                </div>
+                <div class="float-left ml-2">
+                    <h5> Simple to Use</h5>
+                    <p>We guide you step by step.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="float-left">
+                    <img src="{% static 'recommendations/icons/number_icons_2_orange.png' %}" class="numbered-icon">
+                </div>
+                <div class="float-left ml-2">
+                    <h5>Get Feedback</h5>
+                    <p>Helpful features to analyze your data.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="float-left">
+                    <img src="{% static 'recommendations/icons/number_icons_3_orange.png' %}" class="numbered-icon">
+                </div>
+                <div class="float-left ml-2">
+                    <h5>Take Action</h5>
+                    <p>Easily implement recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+{% endblock content %}

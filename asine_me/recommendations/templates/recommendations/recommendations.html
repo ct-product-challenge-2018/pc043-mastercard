@@ -1,0 +1,46 @@
+{% extends "recommendations/base.html" %}
+{% block content %}
+<div class="container text-center">
+    <h1>Salesperson recommendations for {{ clientName }}</h1>
+    <h3 class="text-left">{{ clientName }} features</h3>
+    <div class="results-box p-3">
+      <table class="table table-sm text-center m-0">
+        {# headings #}
+        <thead class="thead-light">
+        {% for key in fields %}
+          <th>{{ key }}</th>
+        {% endfor %}
+        </thead>
+        <tr>
+            {% for key, value in fields.items %}
+          <td>{{ value }}</td>
+
+            {% endfor %}
+        </tr>
+      </table>
+    </div>
+
+    <br>
+
+    <h3 class="text-left">Top ten matches out of {{numSalespeople}} salespeople</h3>
+    <div class="results-box p-3">
+        <table class="table table-hover table-sm m-0">
+            {# headings #}
+            <thead class="thead-light">
+              <th>Salesperson</th>
+              <th style="text-align: center; vertical-align: middle;">Result</th>
+              <th style="text-align: center; vertical-align: middle;">Predicted probability of success</th>
+            </thead>
+            {# data #}
+            {% for name, image, prob in top_ten %}
+            <tr>
+              <td style="vertical-align: middle;">{{ name }}</td>
+              <td style="text-align: center; vertical-align: middle;"><img src="{{ image }}" alt="" style="width:8%; height:auto;"></td>
+              <td style="text-align: center; vertical-align: middle;">{{ prob }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br><br>
+</div>
+{% endblock content %}
