@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container text-center">
+	<h1>Welcome to <strong>asine</strong>me</h1>
+	<h3>What would you like to do today?</h3>
+	<div class="container mt-2">
+		<ul class="list-unstyled text-center">
+			<li>
+				<a href="{% url 'create_model' %}" class="btn outline-orange-button my-2" role="button">
+					Create Model
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'preprocessing_confirmation' %}" class="btn outline-orange-button my-2" role="button">
+					Review model
+				</a>
+			<li>
+				<a href="{% url 'input_leads' %}" class="btn outline-orange-button my-2" role="button">
+					Input new leads
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'recommendations' %}" class="btn outline-orange-button my-2" role="button">
+					See your matches
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{% endblock content %}

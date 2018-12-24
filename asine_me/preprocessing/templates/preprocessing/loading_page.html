@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+{% block content %}
+<div class="container text-center">
+  <h1>Training model.</h1>
+  <h3>This might take up to a minute. We appreciate your patience.</h3>
+  <IMG SRC="https://cdn.dribbble.com/users/1319489/screenshots/2946353/monkey-1.gif">
+    <script>
+        function redirect(){
+           window.location.href = "{% url 'model_results' %}";
+        }
+
+        setTimeout(redirect, 4000); //1000 is equivalent to 1 second
+    </script>
+</div>
+{% endblock content %}
