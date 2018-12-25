@@ -1,30 +1,32 @@
 from django.shortcuts import render, redirect
 from .forms import UploadFileForm, PreprocessingDataForm
-from .preprocessing_logic import getFeatures, getJsonDataframe, preprocessDf, validateSalesData, getUserInputFeatures,getDataframeFromJson, getCategoriesAndCounts, buildModel
+from .preprocessing_logic import getDfFromFile, getFeaturesFromDf, getJsonDataframe, preprocessDf, validateSalesData, getUserInputFeatures,getDataframeFromJson, getCategoriesAndCounts, buildModel
 from django.contrib import messages
-
-# TODO: catch all exceptions and return an error message
 
 def createModel(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid() and form.cleaned_data.get('checkbox') == True:
-            featuresList, featureNameMapping = getFeatures(request.FILES['file'])
-            dataframe = getJsonDataframe(request.FILES['file'])
+            try:
+                df = getDfFromFile(request.FILES['file'])
+                featuresList, featureNameMapping = getFeaturesFromDf(df)
+                jsonDf = getJsonDataframe(df)
 
-            # Validate sales data follows formatting rules
-            validSalesData, errorMessages = validateSalesData(featuresList,
-                                                              featureNameMapping,
-                                                              getDataframeFromJson(dataframe))
-            if not validSalesData:
-                for errorMessage in errorMessages:
-                    messages.warning(request, errorMessage)
-                return redirect('create_model')
+                # Validate sales data follows formatting rules
+                validSalesData, errorMessages = validateSalesData(featuresList,
+                                                                  featureNameMapping,                                                      df)
+                if not validSalesData:
+                    for errorMessage in errorMessages:
+                        messages.warning(request, errorMessage)
+                    return redirect('create_model')
 
-            request.session['dataframe'] = dataframe
-            request.session['featuresList'] = featuresList
-            request.session['featureNameMapping'] = featureNameMapping
-            return redirect('data_preprocessing')
+                # Set session variables and redirect to next step
+                request.session['dataframe'] = jsonDf
+                request.session['featuresList'] = featuresList
+                request.session['featureNameMapping'] = featureNameMapping
+                return redirect('data_preprocessing')
+            except Exception as e:
+                messages.warning(request, e)
     else:
         form = UploadFileForm()
 
@@ -44,7 +46,6 @@ def dataPreprocessing(request):
         userInputFeatures = getUserInputFeatures(featuresList, featureNameMapping)
 
         if request.method == "POST":
-            featureNameMapping = request.session['featureNameMapping']
             form = PreprocessingDataForm(request.POST, features=userInputFeatures)
             if form.is_valid():
                 formFields = []
@@ -60,13 +61,15 @@ def dataPreprocessing(request):
                 return redirect('preprocessing_confirmation')
         else: # GET
             form = PreprocessingDataForm(features=userInputFeatures)
-            context = {
-                'form': form,
-            }
-            return render(request, 'preprocessing/data_preprocessing.html', context)
+
+        context = {
+            'form': form,
+        }
+        return render(request, 'preprocessing/data_preprocessing.html', context)
 
     messages.warning(request, f'Please upload a sales data file and acknowledge the formatting rules first.')
     return redirect('create_model')
+
 
 def loadingPage(request):
     return redirect('loading_page')

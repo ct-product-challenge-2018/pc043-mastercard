@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import NewLeadForm, NewLeadDynamicForm
+from .forms import NewLeadDynamicForm
 from django.contrib import messages
 from .matching_logic import getMatchingDynamicRecommendationsContext
 from preprocessing.preprocessing_logic import getUserInputFeatures

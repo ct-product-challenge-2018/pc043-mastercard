@@ -3,13 +3,15 @@
 {% block content %}
 <div class="container text-center">
 	<h1>Upload transaction data</h1>
-
+	{{e}}
 	<div class="p-3 white-bg">
 		<h4 class="text-left">Formatting Rules</h4>
 		<ol class="text-left">
+			<li>Upload an excel or csv file.</li>
 			<li>Make sure there is a column with heading 'Success', with data values 1 indicating successful sale and 0 indicating lost lead.</li>
 			<li>Make sure there is a 'Salesperson ID' column.  The values can be names or ID numbers, but we'll use this when we show our lead assignment recommendations.</li>
 			<li>Make sure there is a 'Client ID' column.  The values can be names or ID numbers.</li>
+			<li>Make sure there are no empty cells in the data.</li>
 			<li>Check that all sensitive fields are masked.  For example, make sure real names have been replaced or anonymized.</li>
 			<li>Check that each column has a heading and that it contains only one type of data.</li>
 		</ol>

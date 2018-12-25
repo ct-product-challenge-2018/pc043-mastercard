@@ -2,42 +2,63 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.externals import joblib
-import json
 
 import numpy as np
 
-def getFeatures(file):
-    df = pd.read_excel(file)
-    featuresList = [] # Gives the order of the features in the dataframe
+class InvalidInput(Exception):
+    pass
+
+def getDfFromFile(file):
+    try:
+        df = pd.read_csv(file)
+        return df
+    except:
+        try:
+            df = pd.read_excel(file)
+            return df
+        except:
+            raise InvalidInput("Please upload an excel or csv file {}".format(file))
+
+
+#TODO: better header cleaning to remove punctuation, spaces, etc.
+def getFeaturesFromDf(df):
+    featuresList = [] # Gives the order of the lowercase feature names in the dataframe
     featureNameMapping = {} # Gives the mapping from lowercase to original name for column headers
 
     for col in df.columns:
         lowercaseCol = col.lower()
         featuresList.append(lowercaseCol)
         featureNameMapping[lowercaseCol] = col
-    #TODO: better header cleaning to remove punctuation, spaces, etc.
 
     return featuresList, featureNameMapping
+
 
 def getUserInputFeatures(features, featureNameMapping):
     return [featureNameMapping[f] for f in features if (f != "client id" and f != 'salesperson id' and f != 'success')]
 
+
 def getDataframeFromJson(jsonData):
     return pd.read_json(jsonData)
+
 
 def getCategoriesAndCounts(df, colHeader):
     counts = df[colHeader].value_counts()
     categories = sorted(counts.index.tolist())
     return categories, counts
 
-# createModel helper functions
-def getJsonDataframe(file):
-    #TODO: handle csv files
-    return pd.read_excel(file).to_json()
 
+# createModel helper functions
+def getJsonDataframe(df):
+    return df.to_json()
+
+
+#TODO: better validation such as duplicate column names, etc.
+#TODO: give users options for handling empty cells
 def validateSalesData(features, featureNameMapping, df):
     errorMessages = []
     valid = True
+
+    # Validate all required columns are present
     if("client id" not in features):
         valid = False
         errorMessages.append("Please make sure there is a 'Client ID' column in the sales data")
@@ -50,19 +71,23 @@ def validateSalesData(features, featureNameMapping, df):
         valid = False
         errorMessages.append("Please make sure there is a 'Salesperson ID' column in the sales data")
 
-    return valid, errorMessages
-
     # Validate success column
-    successColHeader = featureNameMapping['success']
-    # We assume that the larger value is 'success', and the smaller value is 'failure'
-    successValues, successValueCounts = getCategoriesAndCounts(df, successColHeader)
-    if(len(successValues) != 2):
-        valid = False
-        errorMessages.append("Please make sure the 'Success' column has only 1s and 0s as values.")
+    if('success' in featureNameMapping.keys()):
+        successColHeader = featureNameMapping['success']
+        # We assume that the larger value is 'success', and the smaller value is 'failure'
+        successValues, successValueCounts = getCategoriesAndCounts(df, successColHeader)
+        if(len(successValues) != 2):
+            valid = False
+            errorMessages.append("Please make sure the 'Success' column has only 1s and 0s as values.")
 
-    #TODO: better validation such as duplicate column names, etc.
+    # Validate there are no empty cells
+    colsWithEmptyCells = df.columns[df.isna().any()].tolist()
+    if(len(colsWithEmptyCells) > 0):
+        valid = False
+        errorMessages.append("The following columns contain empty cells: {}".format(', '.join(colsWithEmptyCells)))
 
     return valid, errorMessages
+
 
 # dataPreprocessing helper functions
 def buildModel(df, successColHeader, clientColHeader):
@@ -83,6 +108,7 @@ def buildModel(df, successColHeader, clientColHeader):
     joblib.dump(log_reg, modelFilename)
 
     return log_reg.score(X_test, y_test), modified_df.columns.tolist()
+
 
 def preprocessDf(df, successColHeader, salespeopleColHeader, clientsColHeader, formFields):
     np.random.seed(0)
@@ -133,12 +159,13 @@ def preprocessDf(df, successColHeader, salespeopleColHeader, clientsColHeader, f
     modified_df, dummyCols = convertCategoricalToDummies(modified_df, salespeopleColHeader)
     preprocessingSteps[salespeopleColHeader] = {
         'name': salespeopleColHeader,
-        'formField':formField,
+        'formField': formField,
         'categories': salespeopleIds,
         'dummyCols': dummyCols
     }
 
     return modified_df, preprocessingSteps
+
 
 def convertCategoricalToDummies(df, colHeader):
     convertedDf = df.copy()
@@ -157,13 +184,14 @@ def convertCategoricalToDummies(df, colHeader):
     convertedDf = convertedDf.drop(columns_to_drop, axis=1)
     return convertedDf, dummies.columns.tolist()
 
+
 def convertCategoricalToCodes(df, colHeader):
     convertedDf = df.copy()
     codingMap = {}
     i = 0
     for category in categories:
         codingMap[category] = i
-        i +=1
+        i += 1
     convertedDf[colHeader] = convertedDf[colHeader].replace(codingMap)
     return convertedDf, codingMap
 
