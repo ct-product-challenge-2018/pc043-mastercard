@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.externals import joblib
+from .messages import Messages
 
 import numpy as np
 
@@ -17,7 +18,7 @@ def getDfFromFile(file):
             df = pd.read_excel(file)
             return df
         except:
-            raise InvalidInput("Please upload an excel or csv file {}".format(file))
+            raise InvalidInput(Messages.INVALID_SALES_DATA_FILE_TYPE)
 
 
 #TODO: better header cleaning to remove punctuation, spaces, etc.
@@ -61,15 +62,15 @@ def validateSalesData(features, featureNameMapping, df):
     # Validate all required columns are present
     if("client id" not in features):
         valid = False
-        errorMessages.append("Please make sure there is a 'Client ID' column in the sales data")
+        errorMessages.append(Messages.MISSING_CLIENT_ID_COLUMN)
 
     if('success' not in features):
         valid = False
-        errorMessages.append("Please make sure there is a 'Success' column in the sales data")
+        errorMessages.append(Messages.MISSING_SALESPERSON_ID_COLUMN)
 
     if('salesperson id' not in features):
         valid = False
-        errorMessages.append("Please make sure there is a 'Salesperson ID' column in the sales data")
+        errorMessages.append(Messages.MISSING_SUCCESS_COLUMN)
 
     # Validate success column
     if('success' in featureNameMapping.keys()):
@@ -78,13 +79,13 @@ def validateSalesData(features, featureNameMapping, df):
         successValues, successValueCounts = getCategoriesAndCounts(df, successColHeader)
         if(len(successValues) != 2):
             valid = False
-            errorMessages.append("Please make sure the 'Success' column has only 1s and 0s as values.")
+            errorMessages.append(Messages.INVALID_SUCCESS_VALUES)
 
     # Validate there are no empty cells
     colsWithEmptyCells = df.columns[df.isna().any()].tolist()
     if(len(colsWithEmptyCells) > 0):
         valid = False
-        errorMessages.append("The following columns contain empty cells: {}".format(', '.join(colsWithEmptyCells)))
+        errorMessages.append(Messages.createEmptyCellsInColumnsMessages(colsWithEmptyCells))
 
     return valid, errorMessages
 

@@ -10,18 +10,18 @@ def createModel(request):
             try:
                 df = getDfFromFile(request.FILES['file'])
                 featuresList, featureNameMapping = getFeaturesFromDf(df)
-                jsonDf = getJsonDataframe(df)
 
                 # Validate sales data follows formatting rules
                 validSalesData, errorMessages = validateSalesData(featuresList,
-                                                                  featureNameMapping,                                                      df)
+                                                                  featureNameMapping,
+                                                                  df)
                 if not validSalesData:
                     for errorMessage in errorMessages:
                         messages.warning(request, errorMessage)
                     return redirect('create_model')
 
                 # Set session variables and redirect to next step
-                request.session['dataframe'] = jsonDf
+                request.session['dataframe'] = getJsonDataframe(df)
                 request.session['featuresList'] = featuresList
                 request.session['featureNameMapping'] = featureNameMapping
                 return redirect('data_preprocessing')
