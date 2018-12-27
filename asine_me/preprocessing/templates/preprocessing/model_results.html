@@ -1,20 +1,17 @@
-{% extends "recommendations/base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 {% block content %}
 <div class="container text-center">
     <h1>We've trained your model</h1>
-
     <h3>This model is</h3>
+
     <div class="container my-4 results-circle text-center align-center">
         <div style="font-size: 3em;"> {{accuracy}} </div>
     </div>
     <h3>Accurate</h3>
 
-    <div class="container text-center">
-        <a class="btn btn-primary btn-lg mt-5 solid-orange-button" href="#" role="button">
-            Save Model
-        </a>
-        <a class="btn btn-primary btn-lg mt-5 ml-3 solid-orange-button" href="{% url 'input_leads' %}" role="button">
+    <div class="text-center m-2 mt-4">
+        <a class="btn btn-primary btn-lg solid-orange-button" href="{% url 'input_leads' %}" role="button">
             Input New Leads
         </a>
     </div>

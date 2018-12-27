@@ -1,51 +1,48 @@
-{% extends "recommendations/base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 {% block content %}
 {% load crispy_forms_tags %}
 
 <div class="container text-center">
-  <h1>Data Preprocessing</h1>
+    <h1>Data Preprocessing</h1>
+    <h3>Please tell us a bit more about your data to ensure we interpret the data correctly!</h3>
 
-  <h3>Please tell us a bit more about your data to ensure we interpret the data correctly!</h3>
-  <form method="POST">
-    {% csrf_token %}
-    {% regroup form by field.group as field_groups %}
-    <div class="text-center ">
-      <div class="results-box p-3">
-        <table class="table table-hover table-sm m-0">
-          <thead class="thead-light">
-          <th>Feature Name</th>
-          <th>Feature Type</th>
-          <th>Data Type</th>
-          </thead>
-          {% for field_group in field_groups %}
-          <tr>
-            <td>{{field_group.grouper}}</td>
-            {% for field in field_group.list %}
-            <td>
-              {{ field.errors }}
-              {{ field }}
-              {{ field.help_text }}
-            </td>
-            {% endfor %}
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="container text-center">
-        <button type="submit" class="btn btn-primary btn-lrg solid-orange-button my-3">Continue</button>
-      </div>
+    <form method="POST">
+        {% csrf_token %}
+        {% regroup form by field.group as field_groups %}
+        <div class="results-box p-3">
+            <table class="table table-hover table-sm m-0">
+                <thead class="thead-light">
+                    <th>Feature Name</th>
+                    <th>Feature Type</th>
+                    <th>Data Type</th>
+                </thead>
+                {% for field_group in field_groups %}
+                    <tr>
+                        <td>{{field_group.grouper}}</td>
+                        {% for field in field_group.list %}
+                        <td>
+                          {{ field.errors }}
+                          {{ field }}
+                          {{ field.help_text }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="form-row d-block">
+            <button type="submit" class="btn btn-primary btn-lrg solid-orange-button my-3">Continue</button>
+        </div>
 
-      <div class="alert alert-info  mb-10">
-        <h5>What are the different feature types?</h5>
-        <Strong>Categorical:</Strong> Takes on one value out of a finite set of values. For example red, yellow, blue.
-        </br>
-        <Strong>Numerical:</Strong> Takes on a range of values.  For example, any number between 0 and 1000.
-        </br>
-        <Strong>Boolean:</Strong> Takes on the values true or false.
-      </div>
-    </div>
-  </form>
-
+        <div class="alert alert-info">
+            <h5>What are the different feature types?</h5>
+            <Strong>Categorical:</Strong> Takes on one value out of a finite set of values. For example red, yellow, blue.
+            </br>
+            <Strong>Numerical:</Strong> Takes on a range of values.  For example, any number between 0 and 1000.
+            </br>
+            <Strong>Boolean:</Strong> Takes on the values true or false.
+        </div>
+    </form>
 </div>
 {% endblock content %}

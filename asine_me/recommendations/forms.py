@@ -1,25 +1,5 @@
 from django import forms
-
-class NewLeadForm(forms.Form):
-    clientName = forms.CharField(label="Account Name", required=True)
-
-    vertical = forms.ChoiceField(
-        label="Opportunity Business Area",
-        choices=[("Legal", "Legal"), #eCommerce Business
-                 ("Education", "Education"), #Payment Terminal Business
-                 ("Health", "Health"), #POS Acquiring
-                 ("Not Applicable", "Not Applicable"),])
-
-    salesPersonReferral = forms.ChoiceField(
-        label = "Referred",
-        choices=[("True","True"),
-                 ("False","False"),
-                 ("Not Applicable", "Not Applicable")])
-
-    salesProcess = forms.ChoiceField(
-        label="Opportunity Sales Process",
-        choices=[("New Business", "New Business"),
-                 ("Upsell", "Upsell")])
+from .objects import FieldTypeChoice
 
 class NewLeadDynamicForm(forms.Form):
 
@@ -27,13 +7,14 @@ class NewLeadDynamicForm(forms.Form):
         fields = kwargs.pop('fields')
         super(NewLeadDynamicForm, self).__init__(*args, **kwargs)
 
-        #fieldInf is a list of [label, type, choices]
         for field in fields:
-            if field['type'] == "CharField":
-                self.fields[field['name']] = forms.CharField(label=field['name'])
-            else:
-                self.fields[field['name']] = forms.ChoiceField(label=field['name'],
-                                                               choices=[(choice,choice) for choice in field['categories']])
+            if field.type == FieldTypeChoice.CHAR_FIELD:
+                self.fields[field.name] = forms.CharField(label=field.name)
+            elif field.type == FieldTypeChoice.CHOICE_FIELD:
+                self.fields[field.name] = forms.ChoiceField(label=field.name,
+                                                               choices=[(choice,choice) for choice in field.categories])
+            elif field.type == FieldTypeChoice.FLOAT_FIELD:
+                self.fields[field.name] = forms.FloatField(label=field.name)
 
     def getFields(self):
         f = []

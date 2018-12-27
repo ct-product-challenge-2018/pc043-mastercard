@@ -1,12 +1,32 @@
 import numpy as np
 from sklearn.externals import joblib
+from preprocessing.objects import MODEL_FILENAME, SCALER_FILENAME, FeatureTypeChoice
+from .objects import NewLeadFormField
 
-# Helper functions
-def loadClassifier(model_path):
-    return joblib.load(model_path)
+# Input new leads functions --------------------------------------------------------------------------------------------
+def getInputNewLeadFields(clientColHeader, userInputFeatures, preprocessingSteps):
+    fields = []
+    clientIdField = NewLeadFormField(clientColHeader)
+    clientIdField.setAsCharField()
+    fields.append(clientIdField)
 
-def codeCategoricalField(value, sales_process_dict):
-    return sales_process_dict.get(value)
+    for feature in userInputFeatures:
+        field = NewLeadFormField(feature)
+        preprocessingStep = preprocessingSteps[feature]
+
+        if preprocessingStep.formField.featureType == FeatureTypeChoice.CATEGORICAL.value \
+                or preprocessingStep.formField.featureType == FeatureTypeChoice.BOOLEAN.value:
+            field.setAsChoiceField(preprocessingStep.categories)
+        elif preprocessingStep.formField.featureType == FeatureTypeChoice.NUMERICAL.value:
+            field.setAsFloatField()
+
+        fields.append(field)
+
+    return fields
+
+# Recommendations functions --------------------------------------------------------------------------------------------
+def loadObjectFromFile(filePath):
+    return joblib.load(filePath)
 
 def getMatchingDynamicRecommendationsContext(fields,
                                              userInputFeatures,
@@ -14,16 +34,17 @@ def getMatchingDynamicRecommendationsContext(fields,
                                              preprocessingSteps,
                                              featureCols):
     numFeatures = len(featureCols)
+
     # Feature vector for new lead
     featureVector = np.zeros(numFeatures)
 
     for feature in userInputFeatures:
-        if 'coding' in preprocessingSteps[feature].keys():
-            coding = preprocessingSteps[feature]['coding']
+        if preprocessingSteps[feature].codingMap != None:
+            coding = preprocessingSteps[feature].codingMap
             offset = featureCols.index(feature)
-            featureVector[offset] = codeCategoricalField(fields[feature], coding)
-        elif 'dummyCols' in preprocessingSteps[feature].keys():
-            dummyCols = preprocessingSteps[feature]['dummyCols']
+            featureVector[offset] = coding.get(fields[feature])
+        elif preprocessingSteps[feature].dummyCols != None:
+            dummyCols = preprocessingSteps[feature].dummyCols
             offset = featureCols.index(dummyCols[0])
             for i in range(offset, offset+len(dummyCols)):
                 colName = featureCols[i]
@@ -35,14 +56,16 @@ def getMatchingDynamicRecommendationsContext(fields,
 
     # Dummy columns for categorical features
     salespeopleColHeader = featureNameMapping['salesperson id']
-    salesPersonDummyColumns = preprocessingSteps[salespeopleColHeader]['dummyCols']
+    salesPersonDummyColumns = preprocessingSteps[salespeopleColHeader].dummyCols
     salesPersonDummyColumnsOffset = featureCols.index(salesPersonDummyColumns[0])
 
     # Classifier
-    log_reg = loadClassifier('recommendations/static/recommendations/session_model.joblib')
+    log_reg = loadObjectFromFile(MODEL_FILENAME)
+    scaler = loadObjectFromFile(SCALER_FILENAME)
 
     top_ten = getMatchProbabilities(
         log_reg,
+        scaler,
         featureVector,
         salesPersonDummyColumnsOffset,
         salesPersonDummyColumns)
@@ -57,24 +80,27 @@ def getMatchingDynamicRecommendationsContext(fields,
 
     return context
 
-
-def getMatchProbabilities(classifier, featureVector, salesPersonDummyColumnsOffset, dummies_columns):
+def getMatchProbabilities(classifier, scaler, featureVector, salesPersonDummyColumnsOffset, salesPersonDummyColumns):
     recommended_salespeople = [] # Records salespeople and probability
-    for i in range(len(dummies_columns)):
-        X_test_sales_person_row = featureVector.reshape(1,-1)
+    for i in range(len(salesPersonDummyColumns)):
+        # Reshape so that the feature vector is a row in a matrix
+        X_test_sales_person_row = featureVector.reshape(1,-1).copy()
 
         # Set salesperson bit
         X_test_sales_person_row[0][salesPersonDummyColumnsOffset+i] = 1
 
-        X_test_sales_person_row = featureVector.reshape(1,-1)
+        X_test_sales_person_row = scaler.transform(X_test_sales_person_row)
+
+        # Get probability of success
         prob = classifier.predict_proba(X_test_sales_person_row)[0][1]
+
         base_location = "../../static/recommendations/icons/"
         if prob > 0.7:
-            recommended_salespeople.append([dummies_columns[i], prob, base_location + "Full.png", "70% to 100%"])
+            recommended_salespeople.append([salesPersonDummyColumns[i], prob, base_location + "Full.png", "70% to 100%"])
         elif prob > 0.5:
-            recommended_salespeople.append([dummies_columns[i], prob, base_location + "Half.png", "50% to 70%"])
+            recommended_salespeople.append([salesPersonDummyColumns[i], prob, base_location + "Half.png", "50% to 70%"])
         else:
-            recommended_salespeople.append([dummies_columns[i], prob, base_location + "Empty.png", "Less than 50%"])
+            recommended_salespeople.append([salesPersonDummyColumns[i], prob, base_location + "Empty.png", "Less than 50%"])
 
         # Clear salesperson bit
         X_test_sales_person_row[0][salesPersonDummyColumnsOffset+i] = 0
