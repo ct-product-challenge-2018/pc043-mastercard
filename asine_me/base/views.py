@@ -19,8 +19,8 @@ def contact(request):
             message = form.cleaned_data['message']
             try:
                 send_mail(subject, message, from_email,
-                          [])
-                messages.success(request, 'Thank you for your message.')
+                          ['test@test.com'])
+                messages.success(request, 'Thank you for your message. We will get back to you shortly.')
                 return redirect('asineme_home')
             except BadHeaderError:
                 messages.warning(request, 'Invalid header.')
@@ -32,5 +32,4 @@ def contact(request):
     context = {
         'form': form,
     }
-
     return render(request, "base/contact.html", context)
