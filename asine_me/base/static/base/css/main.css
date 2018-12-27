@@ -19,7 +19,6 @@ body {
     margin-top: 5rem;
     margin-bottom: 6rem;
     height:100%;
-
 }
 
 h1 {
@@ -46,9 +45,6 @@ html {
 /* Footer styles
 -------------------------------------------------- */
 .main {
-    /*margin-top: 5rem;
-    margin-bottom: 6rem;
-    height:100%;*/
     position:relative;
 }
 
@@ -66,7 +62,7 @@ html {
 }
 
 /* Header styles
---------------------------------*/
+-------------------------------------------------- */
 #main-header{
     background-color: var(--asineme-dark-blue);
     color: white;
@@ -97,7 +93,7 @@ html {
 }
 
 /* Welcome page styles
-----------------------------------*/
+-------------------------------------------------- */
 .numbered-icon{
     width: 46px;
     height: 46px;
@@ -111,7 +107,7 @@ html {
 }
 
 /* Create new model styles
-----------------------------------*/
+-------------------------------------------------- */
 .white-bg{
     background-color: white;
     overflow: hidden;
@@ -123,8 +119,6 @@ html {
 
 .results-box-2 {
     background-color: var(--medium-orange);
-    width:45%;
-    float:left;
 }
 
 .table {
@@ -145,7 +139,7 @@ th{
 /* Homepage styles
 -------------------------------------------------- */
 .backgroundimg {
-    background-image: url('agreement.png');
+    background-image: url('../images/agreement.png');
     background-size:cover;
 }
 
@@ -242,4 +236,18 @@ th{
     display : flex;
     width:12em;
     height:12em;
+}
+
+/* Input new leads styles
+-------------------------------------------------- */
+.field_organizer {
+    background-color:transparent;
+    border:0;
+}
+
+/* Recommendations styles
+-------------------------------------------------- */
+.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
 }

@@ -1,11 +1,11 @@
 from django import forms
+from .objects import FeatureTypeChoice, DataTypeChoice
 
 class UploadFileForm(forms.Form):
     checkbox = forms.BooleanField(
         label="I have read the above formatting rules and acknowledge the data I am uploading meets these "
               "requirements.")
     file = forms.FileField(label="Choose file to upload")
-
 
 class PreprocessingDataForm(forms.Form):
 
@@ -16,17 +16,12 @@ class PreprocessingDataForm(forms.Form):
         for feature in features:
             self.fields['%s_featureType' % feature] = forms.ChoiceField(
                 label=feature,
-                choices= [("Categorical", "Categorical"),
-                          ("Numerical", "Numerical"),
-                          ("Boolean", "Boolean"),
-                          ])
+                choices= [(choice.value, choice.value) for choice in FeatureTypeChoice])
             self.fields['%s_featureType' % feature].group = feature
 
             self.fields['%s_dataType' % feature] = forms.ChoiceField(
                 label=feature,
-                choices= [("Text", "Text"),
-                          ("Number", "Number"),
-                          ])
+                choices= [(choice.value, choice.value) for choice in DataTypeChoice])
             self.fields['%s_dataType' % feature].group = feature
 
     def features(self):

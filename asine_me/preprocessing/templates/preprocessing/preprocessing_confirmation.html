@@ -8,6 +8,7 @@
         Please confirm the information.  If you see something wrong, please try reuploading updated data or
         check the features specifications.
     </h3>
+
     <div class="text-left p-3 white-bg">
         <div class="float-left data-summary">
             <h4>Summary of Data</h4>
@@ -20,20 +21,28 @@
             <h4>Features</h4>
             <p>Number of salespeople: <span class="result-span">{{ numSalespeople }}</span></p>
             <p>Number of clients: <span class="result-span">{{ numClients }}</span></p>
-            <div class="card-deck p-2">
+            <div class="row p-2">
             {% for confirmation in userInputFieldConfirmations %}
-                <div class="card results-box-2 m-2">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ confirmation.formField.name }}</h5>
-                        <p class="card-text">Feature type:
-                            <span class="result-span">{{ confirmation.formField.featureType }}</span>
-                        </p>
-                        <p class="card-text">Data type:
-                            <span class="result-span">{{ confirmation.formField.dataType }}</span>
-                        </p>
-                        <p class="card-text">Number of unique categories:
-                            <span class="result-span">{{ confirmation.uniqueCategories }}</span>
-                        </p>
+                <div class="col-md-6">
+                    <div class="card results-box-2 my-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ confirmation.formField.featureName }}</h5>
+                            <p class="card-text">Feature type:
+                                <span class="result-span">{{ confirmation.formField.featureType }}</span>
+                            </p>
+                            <p class="card-text">Data type:
+                                <span class="result-span">{{ confirmation.formField.dataType }}</span>
+                            </p>
+                            {% if confirmation.isCategoricalOrBoolean %}
+                                <p class="card-text">Number of unique categories:
+                                    <span class="result-span">{{ confirmation.numUniqueCategories }}</span>
+                                </p>
+                            {% elif confirmation.isNumerical %}
+                                <p class="card-text">Range:
+                                    <span class="result-span">[{{ confirmation.min }}, {{ confirmation.max }}]</span>
+                                </p>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

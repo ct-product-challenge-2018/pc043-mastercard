@@ -4,21 +4,27 @@
 <div class="container text-center">
     <h1>Input new lead</h1>
     <h3>Manually enter new leads</h3>
-
     <form method="POST">
     {% csrf_token %}
-        <div class="input_leads_form p-4 d-flex justify-content-center">
-            {% for field in form.visible_fields %}
-            <div>
-                <div class="mx-2">{{ field.label_tag }}</div>
-                <div class="mx-2">
-                    {{ field.errors }}
-                    {{ field }}
-                    {{ field.help_text }}
+        <div class="input_leads_form p-4 text-left">
+            <div class="row">
+                {% for field in form.visible_fields %}
+                <div class="col-sm-3">
+                    <div class="card p-2 field_organizer">
+
+                        <div class="mx-2">{{ field.label_tag }}</div>
+                        <div class="mx-2">
+                            {{ field.errors }}
+                            {{ field }}
+                            {{ field.help_text }}
+                        </div>
+
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+
         <div class="text-center m-2 mt-4">
             <button type="submit" class="btn btn-primary solid-orange-button">Continue</button>
         </div>

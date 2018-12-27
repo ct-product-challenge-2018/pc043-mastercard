@@ -5,6 +5,10 @@
 
 <div class="container text-center">
     <h1>Data Preprocessing</h1>
+    {% for formField in formFields %}
+        {{formFields}}
+    {% endfor %}
+    {{f}}
     <h3>Please tell us a bit more about your data to ensure we interpret the data correctly!</h3>
     <form method="POST">
         {% csrf_token %}
