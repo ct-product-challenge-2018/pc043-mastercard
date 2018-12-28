@@ -5,7 +5,7 @@
 <div class="container text-center">
     <h1>Here's what we got!</h1>
     <h3>
-        Please confirm the information.  If you see something wrong, please try reuploading updated data or
+        Please confirm the information. If you see something wrong, please try reuploading updated data or
         check the features specifications.
     </h3>
 
@@ -22,7 +22,7 @@
             <p>Number of salespeople: <span class="result-span">{{ numSalespeople }}</span></p>
             <p>Number of clients: <span class="result-span">{{ numClients }}</span></p>
             <div class="row p-2">
-            {% for confirmation in userInputFieldConfirmations %}
+                {% for confirmation in userInputFieldConfirmations %}
                 <div class="col-md-6">
                     <div class="card results-box-2 my-2">
                         <div class="card-body">
@@ -34,18 +34,18 @@
                                 <span class="result-span">{{ confirmation.formField.dataType }}</span>
                             </p>
                             {% if confirmation.isCategoricalOrBoolean %}
-                                <p class="card-text">Number of unique categories:
-                                    <span class="result-span">{{ confirmation.numUniqueCategories }}</span>
-                                </p>
+                            <p class="card-text">Number of unique categories:
+                                <span class="result-span">{{ confirmation.numUniqueCategories }}</span>
+                            </p>
                             {% elif confirmation.isNumerical %}
-                                <p class="card-text">Range:
-                                    <span class="result-span">[{{ confirmation.min }}, {{ confirmation.max }}]</span>
-                                </p>
+                            <p class="card-text">Range:
+                                <span class="result-span">[{{ confirmation.min }}, {{ confirmation.max }}]</span>
+                            </p>
                             {% endif %}
                         </div>
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </div>

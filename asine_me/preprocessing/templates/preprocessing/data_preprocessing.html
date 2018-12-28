@@ -13,21 +13,21 @@
         <div class="results-box p-3">
             <table class="table table-hover table-sm m-0">
                 <thead class="thead-light">
-                    <th>Feature Name</th>
-                    <th>Feature Type</th>
-                    <th>Data Type</th>
+                <th>Feature Name</th>
+                <th>Feature Type</th>
+                <th>Data Type</th>
                 </thead>
                 {% for field_group in field_groups %}
-                    <tr>
-                        <td>{{field_group.grouper}}</td>
-                        {% for field in field_group.list %}
-                        <td>
-                          {{ field.errors }}
-                          {{ field }}
-                          {{ field.help_text }}
-                        </td>
-                        {% endfor %}
-                    </tr>
+                <tr>
+                    <td>{{field_group.grouper}}</td>
+                    {% for field in field_group.list %}
+                    <td>
+                        {{ field.errors }}
+                        {{ field }}
+                        {{ field.help_text }}
+                    </td>
+                    {% endfor %}
+                </tr>
                 {% endfor %}
             </table>
         </div>
@@ -37,9 +37,10 @@
 
         <div class="alert alert-info">
             <h5>What are the different feature types?</h5>
-            <Strong>Categorical:</Strong> Takes on one value out of a finite set of values. For example red, yellow, blue.
+            <Strong>Categorical:</Strong> Takes on one value out of a finite set of values. For example red, yellow,
+            blue.
             </br>
-            <Strong>Numerical:</Strong> Takes on a range of values.  For example, any number between 0 and 1000.
+            <Strong>Numerical:</Strong> Takes on a range of values. For example, any number between 0 and 1000.
             </br>
             <Strong>Boolean:</Strong> Takes on the values true or false.
         </div>
