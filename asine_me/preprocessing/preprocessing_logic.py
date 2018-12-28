@@ -5,7 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.externals import joblib
 from .messages import Messages
-from .objects import MODEL_FILENAME, SCALER_FILENAME, FeatureTypeChoice, DataTypeChoice, \
+from .objects import MODEL_FILENAME, SCALER_FILENAME, InvalidInput, UncaughtCase, FeatureTypeChoice, DataTypeChoice, \
     PreprocessingFormField, PreprocessingConfirmation, PreprocessingStep
 
 
