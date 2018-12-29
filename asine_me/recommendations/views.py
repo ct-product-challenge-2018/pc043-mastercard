@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
+import json
+
 from django.contrib import messages
-from preprocessing.preprocessing_logic import getUserInputFeatures
+from django.shortcuts import render, redirect
 from preprocessing.messages import Messages as PreprocessingMessages
 from preprocessing.objects import as_PreprocessingStep
+from preprocessing.preprocessing_logic import getUserInputFeatures
+
 from .forms import NewLeadDynamicForm
 from .matching_logic import getInputNewLeadFields, getMatchingDynamicRecommendationsContext
-import json
+
 
 def inputNewLeads(request):
     if ('featuresList' in request.session

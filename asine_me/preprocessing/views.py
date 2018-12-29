@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+import json
+
 from django.contrib import messages
+from django.shortcuts import render, redirect
+
 from .forms import UploadFileForm, PreprocessingDataForm
+from .messages import Messages
+from .objects import PreprocessingFormField, as_PreprocessingFormField
 from .preprocessing_logic import getDfFromFile, getFeaturesFromDf, getJsonDataframe, preprocessDf, validateSalesData, \
     getUserInputFeatures, validatePreprocessingInput, getDataframeFromJson, getCategoriesAndCounts, buildModel, \
     getUserInputFieldConfirmations
-from .messages import Messages
-from .objects import PreprocessingFormField, as_PreprocessingFormField
-import json
+
 
 def createModel(request):
     if request.method == "POST":
@@ -41,6 +44,7 @@ def createModel(request):
     }
     return render(request, 'preprocessing/create_model.html', context)
 
+
 def dataPreprocessing(request):
     if ('featuresList' in request.session
             and 'featureNameMapping' in request.session
@@ -70,7 +74,7 @@ def dataPreprocessing(request):
                             messages.warning(request, errorMessage)
                 except Exception as e:
                     messages.warning(request, e)
-        else: # GET
+        else:  # GET
             form = PreprocessingDataForm(features=userInputFeatures)
 
         context = {
@@ -81,6 +85,7 @@ def dataPreprocessing(request):
     messages.warning(request, Messages.MISSING_SALES_DATA)
     return redirect('create_model')
 
+
 def preprocessingConfirmation(request):
     if ('featuresList' in request.session
             and 'featureNameMapping' in request.session
@@ -89,18 +94,19 @@ def preprocessingConfirmation(request):
         try:
             featureNameMapping = request.session['featureNameMapping']
             df = getDataframeFromJson(request.session['dataframe'])
-            formFields = [as_PreprocessingFormField(json.loads(formField)) for formField in request.session['formFields']]
+            formFields = [as_PreprocessingFormField(json.loads(formField)) for formField in
+                          request.session['formFields']]
 
-            #Success
+            # Success
             successColHeader = featureNameMapping['success']
             # We assume that the larger value is 'success', and the smaller value is 'failure'
             successValues, successValueCounts = getCategoriesAndCounts(df, successColHeader)
 
-            #Salespeople
+            # Salespeople
             salespeopleColHeader = featureNameMapping['salesperson id']
             salespeopleIds, salespeopleIdCounts = getCategoriesAndCounts(df, salespeopleColHeader)
 
-            #Clients
+            # Clients
             clientColHeader = featureNameMapping['client id']
             clientIds, clientCounts = getCategoriesAndCounts(df, clientColHeader)
 
@@ -125,8 +131,10 @@ def preprocessingConfirmation(request):
     messages.warning(request, Messages.MISSING_SALES_DATA)
     return redirect('create_model')
 
+
 def loadingPage(request):
     return render(request, 'preprocessing/loading_page.html')
+
 
 def modelResults(request):
     if ('featuresList' in request.session
@@ -155,7 +163,7 @@ def modelResults(request):
                 'accuracy': "{:.2%}".format(accuracy),
                 'preprocessingSteps': preprocessingSteps,
             }
-            #return HttpResponse(modified_df.sort_values(['Client ID'], ascending=[1]).to_html())
+            # return HttpResponse(modified_df.sort_values(['Client ID'], ascending=[1]).to_html())
             return render(request, 'preprocessing/model_results.html', context)
         except Exception as e:
             # Redirect to 'data_preprocessing' if there is an internal error
