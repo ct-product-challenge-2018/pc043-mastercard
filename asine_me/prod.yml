@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  web:
+    image: irenetung/asine_me_web:gunicorn
+    env_file: prod.env
+    ports:
+    - "8000:8000"

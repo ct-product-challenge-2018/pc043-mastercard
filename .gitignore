@@ -4,6 +4,7 @@
 **/*.pyc
 **/*.DS_Store
 **/*.idea
-**/*prod.py
 **/*.AppleDouble
 **/*.LSOverride
+**/*debug.log
+**/*prod.env
