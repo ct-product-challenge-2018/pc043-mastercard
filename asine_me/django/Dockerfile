@@ -9,7 +9,7 @@ RUN mkdir /code
 WORKDIR /code
 
 # copy the contents of entire directory to the directory in the container
-COPY . /code/
+COPY ./django  /code/
 
 # install required packages
 RUN pip install -r requirements.txt

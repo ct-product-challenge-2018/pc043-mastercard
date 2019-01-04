@@ -5,14 +5,14 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 DEBUG = False
 
+STATIC_URL = '/static/'
+STATIC_ROOT = '/static_files/'
+
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '206.81.8.163',
     'asine.me',
 ]
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
