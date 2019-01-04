@@ -4,19 +4,23 @@ volumes:
   static_files:
 services:
   web:
-    image: irenetung/asine_me_web:latest
+    build:
+      context: .
+      dockerfile: django/Dockerfile
     env_file: prod.env
     volumes:
-    - static_files:/static_files
+      - static_files:/static_files
     ports:
-    - "8000:8000"
+      - "8000:8000"
     command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind :8000 asine_me.wsgi:application"
     # && python manage.py makemigrations && python manage.py migrate
   nginx:
-    image: irenetung/asine_me_nginx:latest
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
     volumes:
-    - static_files:/static_files
+      - static_files:/static_files
     ports:
-    - "8080:80"
+      - "8080:80"
     depends_on:
-    - web
+      - web
