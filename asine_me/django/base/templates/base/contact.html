@@ -1,15 +1,27 @@
 {% extends "base/base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 <div class="container text-left">
     <h1>Contact us</h1>
-
-    <form method="POST">
+    <form method="POST" onsubmit="disableFunction()">
         {% csrf_token %}
         {{ form | crispy }}
         <div class="text-right m-2">
-            <button type="submit" class="btn btn-primary solid-orange-button">Send</button>
+            <span id="loading_icon" class="mr-2 d-none">
+                <img class="loading-circle " src="{% static 'base/icons/loadingCircle.gif' %}" />
+            </span>
+            <button type="submit" id="btn_submit" class="btn btn-primary solid-orange-button">Send</button>
         </div>
     </form>
 </div>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+    function disableFunction() {
+        $('#btn_submit').prop('disabled', true);
+        $('#loading_icon').removeClass("d-none");
+    }
+</script>
+{% endblock javascript %}

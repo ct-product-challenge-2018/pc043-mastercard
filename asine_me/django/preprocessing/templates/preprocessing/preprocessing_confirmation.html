@@ -51,9 +51,22 @@
     </div>
 
     <div class="text-right m-2">
-        <a class="btn btn-primary btn-lrg solid-orange-button mt-2" href="{% url 'loading_page' %}" role="button">
+        <span id="loading_icon" class="mr-2 d-none">
+            <img class="loading-circle " src="{% static 'base/icons/loadingCircle.gif' %}" />
+        </span>
+        <a class="btn btn-primary btn-lrg solid-orange-button mt-2" href="{% url 'model_results' %}"
+           role="button" onclick="disableFunction()">
             Confirm
         </a>
     </div>
 </div>
 {% endblock content %}
+
+{% block javascript %}
+<script>
+    function disableFunction() {
+        $('#btn_submit').prop('disabled', true);
+        $('#loading_icon').removeClass("d-none");
+    }
+</script>
+{% endblock javascript %}
