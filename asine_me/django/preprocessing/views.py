@@ -132,8 +132,8 @@ def preprocessingConfirmation(request):
     return redirect('create_model')
 
 
-def loadingPage(request):
-    return render(request, 'preprocessing/loading_page.html')
+# def loadingPage(request):
+#     return render(request, 'preprocessing/loading_page.html')
 
 
 def modelResults(request):
