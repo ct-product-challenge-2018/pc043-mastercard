@@ -11,6 +11,7 @@ STATIC_ROOT = '/static_files/'
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '206.81.8.163',
+    '167.99.229.55',
     'asine.me',
 ]
 
